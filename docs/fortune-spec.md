@@ -1,5 +1,17 @@
 # Soul Fortune 功能規格
 
+## 版本管理策略
+
+本功能採用版本化開發，確保穩定性與可擴充性：
+
+- **main / master**：穩定版本，不直接修改
+- **feature/fortune-v1**：基礎塔羅 + 星座算命功能（當前版本）
+- **feature/fortune-v2**：每日運勢與使用者紀錄功能（規劃中）
+- **feature/fortune-v3**：AI 聊天互動式解牌功能（規劃中）
+- **feature/fortune-v4**：社群分享卡片生成功能（規劃中）
+
+### 當前版本：v1
+
 ## 概述
 
 Soul Fortune 是 SoulMap 專案的獨立算命功能模組，結合塔羅牌與星座，提供溫柔療癒與搞笑趣味並存的運勢訊息。
@@ -110,10 +122,97 @@ components/
 - ✅ 不影響原專案功能
 - ✅ 響應式設計完整
 
-## 未來擴充
+## 版本規劃與擴充路線
 
-- [ ] 加入更多塔羅卡（小阿卡納）
-- [ ] 支援分享到社群媒體
-- [ ] 記錄使用者歷史抽牌
-- [ ] 加入塔羅牌圖片
-- [ ] 支援多語言（英文版）
+### 📦 v1：基礎算命功能（當前版本）
+**分支**：`feature/fortune-v1`
+**狀態**：✅ 已完成
+
+功能清單：
+- ✅ 8 張塔羅大阿卡納卡片
+- ✅ 12 星座一句話文案
+- ✅ 三種主題（愛情/工作/隨機）
+- ✅ 雙風格文案（溫柔療癒 + 搞笑趣味）
+- ✅ 響應式 UI 設計
+- ✅ 獨立 API endpoint
+- ✅ 不影響原專案功能
+
+### 🚀 v2：每日運勢與使用者紀錄（規劃中）
+**分支**：`feature/fortune-v2`（未建立）
+**預計功能**：
+
+1. **每日自動運勢**
+   - 每日 00:00 自動更新當日運勢
+   - 依星座提供專屬每日訊息
+   - 支援「今日幸運色」、「今日提醒」
+
+2. **使用者歷史紀錄**
+   - 記錄使用者抽牌歷史
+   - 支援「我的抽牌紀錄」頁面
+   - 可查看過去 30 天的抽牌結果
+
+3. **技術實作位置**（預留）：
+   - `lib/fortune/services/daily.ts` - 每日運勢邏輯
+   - `lib/fortune/services/history.ts` - 歷史紀錄管理
+   - `app/api/fortune/daily/route.ts` - 每日運勢 API
+   - `app/api/fortune/history/route.ts` - 歷史紀錄 API
+   - `app/fortune/history/page.tsx` - 歷史頁面
+
+### 🤖 v3：AI 聊天互動式解牌（規劃中）
+**分支**：`feature/fortune-v3`（未建立）
+**預計功能**：
+
+1. **AI 對話式占卜**
+   - 使用者可與 AI 對話詢問運勢
+   - AI 根據問題推薦適合的塔羅牌
+   - 支援多輪對話深入解讀
+
+2. **個人化解牌**
+   - 根據使用者情境客製化解讀
+   - 提供更深入的建議與指引
+
+3. **技術實作位置**（預留）：
+   - `lib/fortune/services/ai-chat.ts` - AI 對話邏輯
+   - `lib/fortune/prompts/` - AI prompt 模板
+   - `app/api/fortune/chat/route.ts` - AI 對話 API
+   - `app/fortune/chat/page.tsx` - 對話頁面
+   - `components/fortune/ChatInterface.tsx` - 對話 UI
+
+### 🎨 v4：社群分享卡片生成（規劃中）
+**分支**：`feature/fortune-v4`（未建立）
+**預計功能**：
+
+1. **分享圖片生成**
+   - 將抽牌結果生成精美圖片
+   - 支援多種視覺風格模板
+   - 包含 SoulMap 品牌標識
+
+2. **社群分享功能**
+   - 一鍵分享到 Facebook / Instagram / Line
+   - 複製分享連結功能
+   - 生成唯一分享 ID
+
+3. **技術實作位置**（預留）：
+   - `lib/fortune/services/image-gen.ts` - 圖片生成邏輯
+   - `lib/fortune/templates/` - 圖片模板
+   - `app/api/fortune/share/route.ts` - 分享 API
+   - `components/fortune/ShareCard.tsx` - 分享卡片元件
+   - `components/fortune/ShareButton.tsx` - 分享按鈕
+
+### 🔮 未來可能擴充（v5+）
+
+- [ ] 加入更多塔羅卡（小阿卡納 56 張）
+- [ ] 支援多語言（英文、日文版）
+- [ ] 加入真實塔羅牌圖片素材
+- [ ] 支援語音朗讀功能
+- [ ] 整合推播通知（每日運勢提醒）
+- [ ] 建立使用者社群（分享與討論）
+
+---
+
+## 開發注意事項
+
+1. **版本獨立性**：每個版本在獨立分支開發，確保不影響其他版本
+2. **向後相容**：新版本需保持對舊版 API 的相容性
+3. **模組化設計**：預留擴充位置，使用清晰的資料夾結構
+4. **文件同步**：每個版本更新時同步更新此規格文件
