@@ -53,6 +53,12 @@ export default function SiteHeader() {
               配對
             </Link>
             <Link
+              href="/fortune"
+              className="text-cosmic-white hover:text-cosmic-purple transition-colors"
+            >
+              算命
+            </Link>
+            <Link
               href="/about"
               className="text-cosmic-white hover:text-cosmic-purple transition-colors"
             >
@@ -95,6 +101,12 @@ export default function SiteHeader() {
             className="text-sm text-cosmic-white hover:text-cosmic-purple transition-colors"
           >
             配對
+          </Link>
+          <Link
+            href="/fortune"
+            className="text-sm text-cosmic-white hover:text-cosmic-purple transition-colors"
+          >
+            算命
           </Link>
           <Link
             href="/about"
