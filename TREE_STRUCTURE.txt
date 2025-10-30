@@ -1,0 +1,229 @@
+soulmap/
+│
+├── 📦 package.json
+├── 📦 package-lock.json
+├── ⚙️ next.config.js
+├── ⚙️ tsconfig.json
+├── ⚙️ tailwind.config.ts
+├── ⚙️ postcss.config.mjs
+├── 🙈 .gitignore
+│
+├── 📚 文件
+│   ├── 📖 README.md
+│   ├── 🚀 QUICK_START.md
+│   ├── 🏗️ PROJECT_STRUCTURE.md
+│   ├── 🧪 INSTALL_AND_TEST.md
+│   ├── 📋 FILES_CREATED.md
+│   ├── 📊 PROJECT_SUMMARY.txt
+│   └── 🌲 TREE_STRUCTURE.txt (本檔案)
+│
+├── 📁 app/ (Next.js App Router)
+│   │
+│   ├── 🎨 globals.css
+│   ├── 📐 layout.tsx (根佈局)
+│   ├── 🏠 page.tsx (首頁)
+│   │
+│   ├── 📁 tests/
+│   │   └── 📄 page.tsx (/tests - 測驗列表)
+│   │
+│   ├── 📁 quiz/
+│   │   └── 📁 [slug]/
+│   │       └── 📄 page.tsx (/quiz/[slug] - 單一測驗)
+│   │
+│   ├── 📁 result/
+│   │   └── 📁 [slug]/
+│   │       └── 📄 page.tsx (/result/[slug] - 測驗結果)
+│   │
+│   ├── 📁 astro/
+│   │   ├── 📄 page.tsx (/astro - 星座總覽)
+│   │   └── 📁 [sign]/
+│   │       └── 📄 page.tsx (/astro/[sign] - 單一星座)
+│   │
+│   ├── 📁 match/
+│   │   └── 📄 page.tsx (/match - 配對分析)
+│   │
+│   ├── 📁 about/
+│   │   └── 📄 page.tsx (/about - 關於我們)
+│   │
+│   ├── 📁 contact/
+│   │   └── 📄 page.tsx (/contact - 聯絡我們)
+│   │
+│   └── 📁 legal/
+│       ├── 📁 privacy/
+│       │   └── 📄 page.tsx (/legal/privacy - 隱私政策)
+│       └── 📁 disclaimer/
+│           └── 📄 page.tsx (/legal/disclaimer - 免責聲明)
+│
+├── 📁 components/ (React 共用元件)
+│   ├── 🧩 SiteHeader.tsx (頁首)
+│   ├── 🧩 SiteFooter.tsx (頁尾)
+│   ├── 🧩 QuizCard.tsx (測驗卡片)
+│   ├── 🧩 QuestionStepper.tsx (題目步進器)
+│   ├── 🧩 ResultBlock.tsx (結果顯示)
+│   └── 🧩 AdSlot.tsx (廣告位)
+│
+├── 📁 lib/ (業務邏輯與資料層) ⭐ 核心！
+│   ├── 🧠 quizzes.ts (測驗系統)
+│   │   ├── Quiz 型別定義
+│   │   ├── QuizQuestion 型別定義
+│   │   ├── QuizResult 型別定義
+│   │   ├── attachmentQuiz (情感依附測驗)
+│   │   ├── getQuizBySlug() 函式
+│   │   └── getAllQuizzes() 函式
+│   │
+│   ├── ⭐ astrology.ts (星座系統)
+│   │   ├── SignData 型別定義
+│   │   ├── DailyFortune 型別定義
+│   │   ├── zodiacSigns[] (12星座資料)
+│   │   ├── getSignData() 函式
+│   │   └── getAllSignsTodayPreview() 函式
+│   │
+│   └── 💫 match.ts (配對系統)
+│       ├── MatchInput 型別定義
+│       ├── MatchResult 型別定義
+│       ├── elementCompatibility (元素相性表)
+│       ├── specificPairings (特殊配對)
+│       ├── analyzeMatch() 函式
+│       ├── zodiacOptions[]
+│       └── statusOptions[]
+│
+├── 📁 data/ (靜態資料，可擴充)
+│   └── (未來可放 JSON 檔案)
+│
+├── 📁 public/ (靜態資源)
+│   └── (未來可放圖片、favicon 等)
+│
+└── 📁 .next/ (建置輸出，自動生成)
+    └── (已加入 .gitignore)
+
+================================================================================
+📋 檔案路由對應表
+================================================================================
+
+URL 路徑                    檔案位置
+──────────────────────────────────────────────────────────────
+/                          app/page.tsx
+/tests                     app/tests/page.tsx
+/quiz/attachment-style     app/quiz/[slug]/page.tsx (slug=attachment-style)
+/result/attachment-style   app/result/[slug]/page.tsx (slug=attachment-style)
+/astro                     app/astro/page.tsx
+/astro/aries               app/astro/[sign]/page.tsx (sign=aries)
+/match                     app/match/page.tsx
+/about                     app/about/page.tsx
+/contact                   app/contact/page.tsx
+/legal/privacy             app/legal/privacy/page.tsx
+/legal/disclaimer          app/legal/disclaimer/page.tsx
+
+================================================================================
+🔄 資料流向示意
+================================================================================
+
+使用者操作              →  頁面元件              →  邏輯層              →  資料層
+─────────────────────────────────────────────────────────────────────────
+點擊「開始測驗」        →  app/quiz/[slug]      →  getQuizBySlug()     →  quizzes[]
+選擇答案並提交          →  QuestionStepper      →  scoreToResult()     →  維度計分
+查看測驗結果            →  app/result/[slug]    →  QuizResult          →  ResultBlock
+
+點擊「星座」            →  app/astro            →  zodiacSigns         →  12星座資料
+點擊「牡羊座」          →  app/astro/[sign]     →  getSignData()       →  今日/週/月
+
+填寫配對表單            →  app/match            →  analyzeMatch()      →  相性計算
+                                                   ├─ elementCompatibility
+                                                   └─ specificPairings
+
+================================================================================
+🎯 核心設計模式
+================================================================================
+
+1. 資料層 (Data Layer)
+   位置：lib/*.ts
+   職責：儲存測驗題目、星座內容、配對邏輯
+   格式：TypeScript 物件與陣列（可移到 JSON）
+
+2. 邏輯層 (Logic Layer)
+   位置：lib/*.ts 的函式
+   職責：計算分數、過濾資料、轉換格式
+   原則：純函式、可測試、可重用
+
+3. 元件層 (Component Layer)
+   位置：components/*.tsx
+   職責：UI 呈現、使用者互動
+   原則：可重用、接收 props、不含業務邏輯
+
+4. 頁面層 (Page Layer)
+   位置：app/**/page.tsx
+   職責：組合元件、呼叫邏輯函式、路由處理
+   原則：輕薄、只做協調工作
+
+================================================================================
+⚡ 關鍵擴充點
+================================================================================
+
+想新增測驗？
+  → 只需編輯 lib/quizzes.ts
+  → 加入新的 Quiz 物件到 quizzes 陣列
+  → 自動出現在所有相關頁面
+
+想更新星座？
+  → 只需編輯 lib/astrology.ts
+  → 修改對應星座的 today/week/month
+  → 自動反映在星座頁面
+
+想調整配對？
+  → 只需編輯 lib/match.ts
+  → 修改 specificPairings 或 elementCompatibility
+  → 自動更新配對結果
+
+想新增頁面？
+  → 在 app/ 下新增資料夾與 page.tsx
+  → Next.js 自動建立路由
+  → 在 SiteHeader 加上導覽連結
+
+================================================================================
+📦 依賴套件說明
+================================================================================
+
+核心框架：
+  - next: Next.js 14 框架
+  - react: React 18 函式庫
+  - react-dom: React DOM 渲染
+
+開發工具：
+  - typescript: TypeScript 編譯器
+  - @types/*: TypeScript 型別定義
+
+樣式工具：
+  - tailwindcss: Utility-first CSS 框架
+  - postcss: CSS 處理工具
+  - autoprefixer: CSS 前綴自動補齊
+
+================================================================================
+🚀 效能優化建議
+================================================================================
+
+已實施：
+  ✓ Next.js App Router (自動程式碼分割)
+  ✓ TypeScript (編譯時型別檢查)
+  ✓ Tailwind CSS (自動清除未使用的樣式)
+
+未來可做：
+  □ 圖片優化 (next/image)
+  □ 字體優化 (next/font)
+  □ 資料快取 (React Query / SWR)
+  □ SSR/SSG 混合策略
+  □ Edge Runtime 部署
+
+================================================================================
+
+這個結構設計經過深思熟慮，平衡了：
+  • 易用性（新手可快速上手）
+  • 擴充性（可持續成長）
+  • 維護性（易於修改與除錯）
+  • 效能（快速載入與互動）
+
+遵循這個結構，你的專案可以從簡單的心理測驗網站，
+逐步成長為功能豐富的自我探索平台！
+
+Made with ✨ and 💜
+
+================================================================================
