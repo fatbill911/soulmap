@@ -7,6 +7,7 @@ import Tabs from "@/components/fortune/Tabs"
 import ZodiacSelect from "@/components/fortune/ZodiacSelect"
 import DrawButton from "@/components/fortune/DrawButton"
 import FortuneCard from "@/components/fortune/FortuneCard"
+import MiniBoard from "@/components/board/MiniBoard"
 
 type FortuneResult = {
   card: {
@@ -80,6 +81,9 @@ export default function FortunePage() {
             <p className="text-sm mt-2">每次抽牌都是獨一無二的訊息</p>
           </div>
         )}
+
+        {/* 靈魂留言板 */}
+        <MiniBoard />
       </div>
     </div>
   )
