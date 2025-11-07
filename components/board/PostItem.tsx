@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { formatTimeAgo } from "@/lib/board/utils"
-import { submitReport, getAnonId } from "@/lib/board/api"
+import { formatTimeAgo, getAnonId } from "@/lib/board/utils"
+import { submitReport } from "@/lib/board/api"
 import AuthBadge from "./AuthBadge"
 import ReactionBar from "./ReactionBar"
 import ReplyList from "./ReplyList"
