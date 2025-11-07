@@ -21,6 +21,14 @@ export default function TestsPage() {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* MBTI 迷你版 - 獨立測驗 */}
+        <QuizCard
+          slug="mbti-mini"
+          title="🧠 MBTI 迷你版"
+          description="8 題快速測驗，了解你的人格類型（外向/內向、實感/直覺、思考/情感、判斷/知覺）"
+          estTimeMins={3}
+        />
+
         {quizzes.map((quiz) => (
           <QuizCard key={quiz.slug} {...quiz} />
         ))}
