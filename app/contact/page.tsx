@@ -135,7 +135,15 @@ export default function ContactPage() {
           </form>
 
           <div className="mt-6 text-center text-sm text-cosmic-white/50">
-            <p>📧 或直接寄信至：contact@soulmap.example.com</p>
+            <p>
+              📧 或直接寄信至：
+              <a
+                href="mailto:soulmapcontact@gmail.com"
+                className="text-cosmic-purple hover:text-cosmic-pink transition-colors ml-1"
+              >
+                soulmapcontact@gmail.com
+              </a>
+            </p>
             <p className="mt-2">我們通常會在 2-3 個工作天內回覆</p>
           </div>
         </div>
