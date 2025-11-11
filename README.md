@@ -6,8 +6,42 @@
 
 ## ✨ 特色
 
-- 🧭 **心理測驗系統**：模組化設計，輕鬆新增測驗而無需修改程式碼
+### 🌊 情感探索五部曲（Emotional Journey Series）
+
+完整的心理測驗旅程，帶你探索內在世界：
+
+- **🌊 依附風格測驗** (Attachment)：了解你在關係中的依附模式
+- **🔥 情緒表達測驗** (Emotion Style)：探索你的情緒風格
+- **🌿 親密距離測驗** (Intimacy)：認識你對親密感的需求
+- **🪨 界線測驗** (Boundary)：檢視你的人際界線健康度
+- **🌙 核心信念測驗** (Core Belief)：覺察你的內在信念系統
+
+每個測驗包含 8 題精心設計的問題，提供溫柔、療癒、無批判的專業解析。
+
+### 🗺️ 靈魂地圖 (Soul Profile)
+
+- **五維雷達圖**：視覺化呈現你的情感風格輪廓
+- **進度追蹤**：即時顯示完成的章節數（X / 5）
+- **整合解讀**：根據五個維度生成個人化的心理分析
+- **MBTI 整合**：結合性格類型與情感風格
+
+### 🖼️ 分享卡生成
+
+- **專屬視覺卡片**：完成全部五章後，生成精美的靈魂地圖分享卡
+- **PNG 下載**：一鍵下載高品質圖片，分享到社群媒體
+- **隨機結尾語**：每次生成都有不同的溫柔提醒
+
+### 🧭 旅程導航
+
+- **智慧章節引導**：自動推薦下一個測驗
+- **進度顯示**：清楚標示完成度與剩餘章節
+- **流暢體驗**：從測驗→結果→下一章，無縫接軌
+
+### 🔮 其他功能
+
 - ⭐ **星座運勢**：12 星座的每日/每週/每月完整運勢
+- 🎴 **塔羅運勢**：結合塔羅與星座的混合式占卜
+- 💬 **心情看板**：分享與交流的社群空間（支援回覆、反應、檢舉）
 - 💫 **靈魂配對**：結合星座與心理學的關係分析
 - 🎨 **神秘星語風格**：深邃宇宙配色與優雅的 UI 設計
 - 📱 **完全響應式**：支援所有裝置尺寸
@@ -19,17 +53,26 @@
 soulmap/
 ├── app/                      # Next.js App Router 頁面
 │   ├── about/               # 關於我們
+│   ├── api/                 # API 路由
+│   │   ├── board/          # 看板 API
+│   │   └── fortune/        # 運勢 API
 │   ├── astro/               # 星座運勢
 │   │   └── [sign]/         # 單一星座詳細頁
+│   ├── board/               # 心情看板（社群功能）
 │   ├── contact/             # 聯絡我們
+│   ├── fortune/             # 塔羅 + 星座運勢
 │   ├── legal/               # 法律相關
 │   │   ├── disclaimer/     # 免責聲明
 │   │   └── privacy/        # 隱私政策
+│   ├── map/                 # 靈魂地圖
+│   │   ├── page.tsx        # Soul Profile 主頁（雷達圖 + 摘要）
+│   │   └── share/          # 分享卡生成與下載
 │   ├── match/               # 配對分析
 │   ├── quiz/                # 測驗頁面
-│   │   └── [slug]/         # 單一測驗
+│   │   ├── [slug]/         # 動態測驗頁面（情感五部曲）
+│   │   └── mbti-mini/      # MBTI 性格測驗
 │   ├── result/              # 測驗結果
-│   │   └── [slug]/         # 單一測驗結果
+│   │   └── [slug]/         # 單一測驗結果（含旅程導航）
 │   ├── tests/               # 測驗列表
 │   ├── layout.tsx           # 全域佈局
 │   ├── page.tsx             # 首頁
@@ -39,19 +82,23 @@ soulmap/
 │   ├── AdSlot.tsx           # 廣告位元件
 │   ├── QuestionStepper.tsx  # 測驗題目步進器
 │   ├── QuizCard.tsx         # 測驗卡片
+│   ├── QuizSummaryCard.tsx  # Soul Profile 測驗摘要卡片
+│   ├── RadarChart.tsx       # Canvas 雷達圖元件
 │   ├── ResultBlock.tsx      # 結果顯示區塊
 │   ├── SiteFooter.tsx       # 網站頁尾
 │   └── SiteHeader.tsx       # 網站頁首
 │
 ├── lib/                      # 業務邏輯與資料層
 │   ├── astrology.ts         # 星座資料與邏輯
+│   ├── board.ts             # 看板資料處理
+│   ├── fortune.ts           # 塔羅與運勢邏輯
 │   ├── match.ts             # 配對分析邏輯
-│   └── quizzes.ts           # 測驗資料與計分邏輯
-│
-├── data/                     # 靜態資料檔案（可擴充）
+│   ├── mbti.ts              # MBTI 測驗邏輯
+│   └── quizzes.ts           # 情感五部曲測驗資料與計分邏輯
 │
 ├── public/                   # 靜態資源
 │
+├── vercel.json              # Vercel 部署設定
 ├── next.config.js           # Next.js 設定
 ├── tailwind.config.ts       # Tailwind CSS 設定
 ├── tsconfig.json            # TypeScript 設定
@@ -59,28 +106,42 @@ soulmap/
 └── README.md                # 本文件
 ```
 
-## 🚀 快速開始
+## 🚀 快速部署
 
-### 1. 安裝依賴
+### 從 GitHub Clone 並部署
 
 ```bash
+# 1. Clone 專案
+git clone https://github.com/fatbill911/soulmap.git
+cd soulmap
+
+# 2. 切換到穩定版本（推薦）
+git checkout release/v1-emotional-journey
+
+# 3. 安裝依賴
 npm install
-```
 
-### 2. 啟動開發伺服器
+# 4. 建置專案
+npm run build
 
-```bash
-npm run dev
+# 5. 啟動正式環境
+npm start
 ```
 
 開啟瀏覽器訪問 [http://localhost:3000](http://localhost:3000)
 
-### 3. 建置正式版本
+### 開發模式
 
 ```bash
-npm run build
-npm start
+# 啟動開發伺服器（支援熱重載）
+npm run dev
 ```
+
+### 環境變數
+
+本專案目前**不需要任何環境變數**即可運行。所有功能均為前端實作，無需後端 API 或資料庫連線。
+
+未來若需要串接外部服務（如運勢 API、分析工具），請在專案根目錄建立 `.env.local` 檔案。
 
 ## 🌐 部署到 Vercel
 
@@ -262,6 +323,9 @@ colors: {
 - **Framework**: Next.js 14 (App Router)
 - **UI**: React 18, TypeScript 5
 - **Styling**: Tailwind CSS 3
+- **Canvas Graphics**: HTML5 Canvas API（雷達圖繪製）
+- **Image Export**: html2canvas（分享卡 PNG 生成）
+- **Storage**: LocalStorage（測驗結果暫存）
 - **Icons**: Emoji（未來可改用 Lucide React 或 Heroicons）
 
 ## 📄 授權
