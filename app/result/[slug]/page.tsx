@@ -28,6 +28,17 @@ export default function ResultPage() {
       const extra = signParam ? { sign: signParam } : undefined;
       const quizResult = quiz.scoreToResult(scores, extra);
       setResult(quizResult);
+
+      // 保存結果到 localStorage（供 Soul Profile 頁面使用）
+      localStorage.setItem(
+        `quiz-result-${slug}`,
+        JSON.stringify({
+          type: quizResult.type,
+          label: quizResult.label,
+          summary: quizResult.summary,
+          timestamp: Date.now(),
+        })
+      );
     } catch (error) {
       console.error("Failed to parse scores:", error);
     }
@@ -90,6 +101,12 @@ export default function ResultPage() {
         <div className="mt-12 text-center">
           <p className="text-cosmic-white/70 mb-4">想了解更多關於自己嗎？</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/map"
+              className="text-cosmic-purple hover:text-cosmic-pink transition-colors font-semibold"
+            >
+              🗺️ 查看你的靈魂地圖
+            </Link>
             <Link
               href="/tests"
               className="text-cosmic-purple hover:text-cosmic-pink transition-colors"
