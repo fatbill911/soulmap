@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -204,20 +205,31 @@ export default function ShareCardPage() {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
+        >
           <h1 className="text-3xl md:text-4xl font-bold text-cosmic-white mb-3">
             ✨ 你的靈魂地圖
           </h1>
           <p className="text-cosmic-white/70">
             這是屬於你的情感輪廓，一張由五章故事繪成的地圖。
           </p>
-        </div>
+        </motion.div>
 
-        {/* Share Card */}
-        <div
+        {/* Share Card：由小到大 + 淡入 */}
+        <motion.div
           ref={cardRef}
-          className="bg-gradient-to-br from-cosmic-purple/20 via-cosmic-gray/50 to-cosmic-pink/20 border border-cosmic-purple/30 rounded-2xl p-8 mb-8"
-          style={{ aspectRatio: "3/4" }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          className="bg-gradient-to-br from-cosmic-purple/20 via-cosmic-gray/50 to-cosmic-pink/20 border border-cosmic-purple/30 rounded-3xl p-8 mb-8 relative overflow-hidden"
+          style={{
+            aspectRatio: "3/4",
+            boxShadow: "0 20px 60px rgba(155, 93, 229, 0.3)",
+          }}
         >
           {/* Card Header */}
           <div className="text-center mb-6">
@@ -261,29 +273,46 @@ export default function ShareCardPage() {
             })}
           </div>
 
-          {/* Closing Message */}
-          <div className="text-center pt-4 border-t border-cosmic-white/10">
+          {/* Closing Message：延遲淡入上浮 */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+            className="text-center pt-4 border-t border-cosmic-white/10"
+          >
             <p className="text-cosmic-white/80 italic text-sm">
               {closingMessage}
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <button
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+        >
+          <motion.button
             onClick={handleDownload}
-            className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cosmic-purple/50 transition-all"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-xl font-semibold"
+            style={{
+              boxShadow: "0 8px 25px rgba(155, 93, 229, 0.4)",
+            }}
           >
             📸 下載圖片
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={handleCopyLink}
-            className="bg-cosmic-gray/50 text-cosmic-white px-8 py-3 rounded-lg font-semibold hover:bg-cosmic-purple/30 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-cosmic-gray/50 text-cosmic-white px-8 py-3 rounded-xl font-semibold hover:bg-cosmic-purple/30 transition-colors"
           >
             🔗 複製分享連結
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Back Link */}
         <div className="text-center">

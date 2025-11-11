@@ -1,38 +1,82 @@
+"use client";
+
+import { motion } from "framer-motion";
 import QuizCard from "@/components/QuizCard";
 import { getAllQuizzes } from "@/lib/quizzes";
-
-export const metadata = {
-  title: "心理測驗 | SoulMap 靈魂地圖",
-  description: "探索你的內在世界，透過科學化的心理測驗了解自己的人格特質與依附型態。",
-};
 
 export default function TestsPage() {
   const quizzes = getAllQuizzes();
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-cosmic-white mb-4">
+      {/* Hero 區塊：從下往上浮出 + 淡入 */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="text-center mb-12"
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="text-4xl md:text-5xl font-bold text-cosmic-white mb-4"
+        >
           🧭 心理測驗
-        </h1>
-        <p className="text-lg text-cosmic-white/70 max-w-2xl mx-auto">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          className="text-lg text-cosmic-white/70 max-w-2xl mx-auto"
+        >
           透過科學化的測驗工具，探索你的內在世界。了解自己，是改變的第一步。
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* 測驗卡片列表：stagger 動畫 */}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
+        }}
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {/* MBTI 迷你版 - 獨立測驗 */}
-        <QuizCard
-          slug="mbti-mini"
-          title="🧠 MBTI 迷你版"
-          description="8 題快速測驗，了解你的人格類型（外向/內向、實感/直覺、思考/情感、判斷/知覺）"
-          estTimeMins={3}
-        />
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <QuizCard
+            slug="mbti-mini"
+            title="🧠 MBTI 迷你版"
+            description="8 題快速測驗，了解你的人格類型（外向/內向、實感/直覺、思考/情感、判斷/知覺）"
+            estTimeMins={3}
+          />
+        </motion.div>
 
         {quizzes.map((quiz) => (
-          <QuizCard key={quiz.slug} {...quiz} />
+          <motion.div
+            key={quiz.slug}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <QuizCard {...quiz} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {quizzes.length === 0 && (
         <div className="text-center py-16">

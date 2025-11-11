@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getQuizBySlug, Quiz } from "@/lib/quizzes";
@@ -81,13 +82,61 @@ export default function QuizPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      {/* Quiz Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-cosmic-white mb-3">
+      {/* Quiz Header：從上方滑下 + 淡入 */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="text-center mb-12"
+      >
+        {quiz.icon && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "backOut" }}
+            className="text-5xl mb-4"
+          >
+            {quiz.icon}
+          </motion.div>
+        )}
+        <motion.h1
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-3xl md:text-4xl font-bold text-cosmic-white mb-3"
+        >
           {quiz.title}
-        </h1>
-        <p className="text-cosmic-white/70">{quiz.description}</p>
-      </div>
+        </motion.h1>
+        {quiz.series && quiz.order && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-sm text-cosmic-purple mb-2"
+          >
+            第 {quiz.order} 章 · 情感探索五部曲
+          </motion.div>
+        )}
+        {quiz.introText && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-cosmic-white/60 italic mb-2"
+            style={{ color: quiz.themeColor || undefined }}
+          >
+            {quiz.introText}
+          </motion.p>
+        )}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-cosmic-white/70"
+        >
+          {quiz.description}
+        </motion.p>
+      </motion.div>
 
       {/* Question Stepper */}
       <QuestionStepper

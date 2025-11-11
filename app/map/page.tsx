@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import RadarChart from "@/components/RadarChart";
@@ -283,28 +284,45 @@ export default function SoulProfilePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {completedCount === 5 ? (
-              <Link
-                href="/map/share"
-                className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cosmic-purple/50 transition-all text-center"
-              >
-                📤 生成分享卡
+              <Link href="/map/share">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.02, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-xl font-semibold text-center cursor-pointer"
+                  style={{
+                    boxShadow: "0 8px 32px rgba(155, 93, 229, 0.5)",
+                  }}
+                >
+                  📤 生成分享卡
+                </motion.div>
               </Link>
             ) : (
               <button
                 onClick={() =>
                   alert("完成全部五章測驗後，就能生成你的專屬分享卡！")
                 }
-                className="bg-cosmic-gray/50 text-cosmic-white/50 px-8 py-3 rounded-lg font-semibold cursor-not-allowed"
+                className="bg-cosmic-gray/50 text-cosmic-white/50 px-8 py-3 rounded-xl font-semibold cursor-not-allowed"
                 disabled
               >
                 📤 生成分享卡（需完成 5/5 章）
               </button>
             )}
-            <Link
-              href="/tests"
-              className="bg-cosmic-gray/50 text-cosmic-white px-8 py-3 rounded-lg font-semibold hover:bg-cosmic-purple/30 transition-colors text-center"
-            >
-              ← 回到測驗列表
+            <Link href="/tests">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-cosmic-gray/50 text-cosmic-white px-8 py-3 rounded-xl font-semibold hover:bg-cosmic-purple/30 transition-colors text-center"
+              >
+                ← 回到測驗列表
+              </motion.div>
             </Link>
           </div>
         </div>

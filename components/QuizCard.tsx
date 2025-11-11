@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 interface QuizCardProps {
@@ -19,25 +22,25 @@ export default function QuizCard({
   themeColor,
   icon,
 }: QuizCardProps) {
-  // 使用 themeColor 或預設色
-  const borderColor = themeColor
-    ? `border-[${themeColor}]/30 hover:border-[${themeColor}]`
-    : "border-cosmic-purple/30 hover:border-cosmic-purple";
-  const shadowColor = themeColor
-    ? `hover:shadow-[${themeColor}]/20`
-    : "hover:shadow-cosmic-purple/20";
-  const badgeColor = themeColor
-    ? `bg-[${themeColor}]/20 text-[${themeColor}]`
-    : "bg-cosmic-purple/20 text-cosmic-purple";
-  const buttonColor = themeColor ? "" : "bg-cosmic-purple hover:bg-cosmic-pink";
-
   return (
-    <div
-      className={`bg-cosmic-gray/50 backdrop-blur-sm border rounded-xl p-6 transition-all hover:shadow-lg ${borderColor} ${shadowColor}`}
+    <motion.div
+      whileHover={{ scale: 1.03, y: -4 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="bg-cosmic-gray/50 backdrop-blur-sm border rounded-2xl p-6 transition-all hover:shadow-2xl relative overflow-hidden"
       style={{
-        borderColor: themeColor ? `${themeColor}40` : undefined,
+        borderColor: themeColor ? `${themeColor}40` : "#9B5DE5 40",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
       }}
     >
+      {/* 漸層背景層 */}
+      <motion.div
+        className="absolute inset-0 opacity-0 hover:opacity-10 transition-opacity duration-500"
+        style={{
+          background: themeColor
+            ? `linear-gradient(135deg, ${themeColor}20, transparent)`
+            : "linear-gradient(135deg, #9B5DE520, transparent)",
+        }}
+      />
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
           {icon && <span className="text-2xl">{icon}</span>}
@@ -53,18 +56,25 @@ export default function QuizCard({
           {estTimeMins} 分鐘
         </span>
       </div>
-      <p className="text-cosmic-white/70 text-sm mb-4 line-clamp-2">
+      <p className="text-cosmic-white/70 text-sm mb-4 line-clamp-2 relative z-10">
         {description}
       </p>
-      <Link
-        href={`/quiz/${slug}`}
-        className={`inline-block text-white px-6 py-2 rounded-lg transition-colors font-medium ${buttonColor}`}
-        style={{
-          backgroundColor: themeColor || undefined,
-        }}
-      >
-        開始測驗 →
+      <Link href={`/quiz/${slug}`} className="relative z-10">
+        <motion.div
+          whileHover={{ scale: 1.05, brightness: 1.2 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="inline-block text-white px-6 py-2 rounded-lg font-medium relative overflow-hidden"
+          style={{
+            background: themeColor
+              ? `linear-gradient(135deg, ${themeColor}, ${themeColor}dd)`
+              : "linear-gradient(135deg, #9B5DE5, #F72585)",
+            boxShadow: `0 4px 15px ${themeColor || "#9B5DE5"}40`,
+          }}
+        >
+          開始測驗 →
+        </motion.div>
       </Link>
-    </div>
+    </motion.div>
   );
 }

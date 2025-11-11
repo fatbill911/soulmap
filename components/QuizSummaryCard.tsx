@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 interface QuizSummaryCardProps {
@@ -20,10 +23,18 @@ export default function QuizSummaryCard({
   const isCompleted = !!resultLabel;
 
   return (
-    <div
-      className="bg-cosmic-gray/50 backdrop-blur-sm border rounded-xl p-6 transition-all hover:shadow-lg relative"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.03, y: -4 }}
+      className="bg-cosmic-gray/50 backdrop-blur-sm border rounded-2xl p-6 transition-all relative"
       style={{
         borderColor: isCompleted ? `${color}40` : "rgba(255, 255, 255, 0.1)",
+        boxShadow: isCompleted
+          ? `0 4px 20px ${color}20`
+          : "0 4px 20px rgba(0, 0, 0, 0.2)",
       }}
     >
       {/* 測驗標題與圖示 */}
@@ -73,6 +84,6 @@ export default function QuizSummaryCard({
           </Link>
         </>
       )}
-    </div>
+    </motion.div>
   );
 }

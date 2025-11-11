@@ -157,9 +157,25 @@ export default function ResultPage() {
           </div>
 
           {nextQuiz ? (
-            <div className="bg-cosmic-gray/30 rounded-xl p-6 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ scale: 1.02, y: -4 }}
+              className="bg-cosmic-gray/30 rounded-2xl p-6 mb-6 border border-transparent hover:border-cosmic-purple/50 transition-all"
+              style={{
+                boxShadow: "0 8px 24px rgba(0, 0, 0, 0.3)",
+              }}
+            >
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-3xl">{nextQuiz.icon}</span>
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5, ease: "backOut" }}
+                  className="text-3xl"
+                >
+                  {nextQuiz.icon}
+                </motion.span>
                 <div>
                   <p className="text-sm text-cosmic-white/60">下一章</p>
                   <h3 className="text-lg font-semibold text-cosmic-white">
@@ -173,16 +189,20 @@ export default function ResultPage() {
               >
                 {nextQuiz.introText}
               </p>
-              <Link
-                href={`/quiz/${nextQuiz.slug}`}
-                className="inline-block w-full text-center text-white px-8 py-3 rounded-lg font-semibold transition-all hover:shadow-lg"
-                style={{
-                  backgroundColor: nextQuiz.color,
-                }}
-              >
-                ▶️ 開始下一章
+              <Link href={`/quiz/${nextQuiz.slug}`}>
+                <motion.div
+                  whileHover={{ scale: 1.05, brightness: 1.2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full text-center text-white px-8 py-3 rounded-xl font-semibold transition-all"
+                  style={{
+                    background: `linear-gradient(135deg, ${nextQuiz.color}, ${nextQuiz.color}dd)`,
+                    boxShadow: `0 4px 20px ${nextQuiz.color}40`,
+                  }}
+                >
+                  ▶️ 開始下一章
+                </motion.div>
               </Link>
-            </div>
+            </motion.div>
           ) : (
             completedCount === 5 && (
               <div className="text-center mb-6">
