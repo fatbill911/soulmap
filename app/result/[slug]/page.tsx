@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getQuizBySlug, QuizResult, getAllQuizzes } from "@/lib/quizzes";
@@ -191,9 +192,9 @@ export default function ResultPage() {
               </p>
               <Link href={`/quiz/${nextQuiz.slug}`}>
                 <motion.div
-                  whileHover={{ scale: 1.05, brightness: 1.2 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full text-center text-white px-8 py-3 rounded-xl font-semibold transition-all"
+                  className="w-full text-center text-white px-8 py-3 rounded-xl font-semibold transition-all hover:opacity-90"
                   style={{
                     background: `linear-gradient(135deg, ${nextQuiz.color}, ${nextQuiz.color}dd)`,
                     boxShadow: `0 4px 20px ${nextQuiz.color}40`,

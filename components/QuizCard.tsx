@@ -47,10 +47,10 @@ export default function QuizCard({
           <h3 className="text-xl font-semibold text-cosmic-white">{title}</h3>
         </div>
         <span
-          className={`text-xs px-2 py-1 rounded-full ${badgeColor}`}
+          className="text-xs px-2 py-1 rounded-full"
           style={{
-            backgroundColor: themeColor ? `${themeColor}33` : undefined,
-            color: themeColor || undefined,
+            backgroundColor: themeColor ? `${themeColor}33` : "rgba(155, 93, 229, 0.2)",
+            color: themeColor || "#9B5DE5",
           }}
         >
           {estTimeMins} 分鐘
@@ -61,10 +61,10 @@ export default function QuizCard({
       </p>
       <Link href={`/quiz/${slug}`} className="relative z-10">
         <motion.div
-          whileHover={{ scale: 1.05, brightness: 1.2 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="inline-block text-white px-6 py-2 rounded-lg font-medium relative overflow-hidden"
+          className="inline-block text-white px-6 py-2 rounded-lg font-medium relative overflow-hidden hover:opacity-90"
           style={{
             background: themeColor
               ? `linear-gradient(135deg, ${themeColor}, ${themeColor}dd)`
