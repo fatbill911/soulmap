@@ -282,14 +282,24 @@ export default function SoulProfilePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() =>
-                alert("分享功能開發中！未來可以分享你的情感地圖快照。")
-              }
-              className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cosmic-purple/50 transition-all"
-            >
-              📤 分享你的情感地圖
-            </button>
+            {completedCount === 5 ? (
+              <Link
+                href="/map/share"
+                className="bg-gradient-to-r from-cosmic-purple to-cosmic-pink text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cosmic-purple/50 transition-all text-center"
+              >
+                📤 生成分享卡
+              </Link>
+            ) : (
+              <button
+                onClick={() =>
+                  alert("完成全部五章測驗後，就能生成你的專屬分享卡！")
+                }
+                className="bg-cosmic-gray/50 text-cosmic-white/50 px-8 py-3 rounded-lg font-semibold cursor-not-allowed"
+                disabled
+              >
+                📤 生成分享卡（需完成 5/5 章）
+              </button>
+            )}
             <Link
               href="/tests"
               className="bg-cosmic-gray/50 text-cosmic-white px-8 py-3 rounded-lg font-semibold hover:bg-cosmic-purple/30 transition-colors text-center"
