@@ -21,6 +21,10 @@ export interface Quiz {
   slug: string;
   title: string;
   description: string;
+  series?: string; // 測驗系列 (例如: "emotional-journey")
+  order?: number; // 系列中的順序
+  themeColor?: string; // 主題色彩
+  icon?: string; // 圖示 emoji
   estTimeMins: number;
   questions: QuizQuestion[];
   scoreToResult: (scores: Record<string, number>, extra?: { sign?: string }) => QuizResult;
@@ -28,9 +32,13 @@ export interface Quiz {
 
 // 情感依附型態測驗
 const attachmentQuiz: Quiz = {
-  slug: "attachment-style",
-  title: "情感依附型態測驗",
+  slug: "attachment",
+  title: "情感依附型態",
   description: "探索你在親密關係中的依附模式，了解你如何建立與維繫情感連結。",
+  series: "emotional-journey",
+  order: 1,
+  themeColor: "#4AA3D4",
+  icon: "🌊",
   estTimeMins: 5,
   questions: [
     {
@@ -256,8 +264,325 @@ function getStarNoteForAttachment(attachmentType: string, sign: string): string 
   return notes[attachmentType]?.[sign.toLowerCase()] || "星星提醒你：了解自己是改變的第一步。";
 }
 
+// 情緒表達風格測驗
+const emotionStyleQuiz: Quiz = {
+  slug: "emotion-style",
+  title: "情緒表達風格",
+  description: "探索你面對情緒時的表達與處理方式。",
+  series: "emotional-journey",
+  order: 2,
+  themeColor: "#F47C3C",
+  icon: "🔥",
+  estTimeMins: 4,
+  questions: [
+    {
+      id: "q1",
+      text: "當我感到難過時，我會主動向他人傾訴",
+      type: "scale5",
+      dimension: "expression",
+    },
+    {
+      id: "q2",
+      text: "我傾向壓抑自己的負面情緒",
+      type: "scale5",
+      dimension: "suppression",
+    },
+    {
+      id: "q3",
+      text: "我能清楚辨識並說出自己的情緒",
+      type: "scale5",
+      dimension: "awareness",
+    },
+    {
+      id: "q4",
+      text: "面對衝突時，我習慣用理性分析取代情緒表達",
+      type: "scale5",
+      dimension: "rationalization",
+    },
+    {
+      id: "q5",
+      text: "我容易被情緒淹沒，難以控制",
+      type: "scale5",
+      dimension: "intensity",
+    },
+  ],
+  scoreToResult: (scores) => {
+    const expression = scores.expression || 0;
+    const suppression = scores.suppression || 0;
+
+    if (expression >= 4 && suppression <= 2) {
+      return {
+        type: "expressive",
+        label: "表達型 🔥",
+        summary: "你善於表達情緒，不害怕展現真實感受。",
+        strengths: ["情感真誠", "溝通直接", "不累積負面情緒"],
+        weaknesses: ["可能過於情緒化", "需要注意表達時機"],
+        advice: "繼續保持真誠，同時學習在適當時機表達情緒。",
+      };
+    } else if (suppression >= 4) {
+      return {
+        type: "suppressive",
+        label: "壓抑型 ❄️",
+        summary: "你傾向壓抑情緒，不輕易向外表達感受。",
+        strengths: ["理性冷靜", "不易衝動"],
+        weaknesses: ["累積情緒壓力", "可能突然爆發"],
+        advice: "找到安全的方式釋放情緒，避免長期壓抑。",
+      };
+    } else {
+      return {
+        type: "balanced",
+        label: "平衡型 🌊",
+        summary: "你在表達與控制情緒間取得平衡。",
+        strengths: ["情緒穩定", "懂得適時表達"],
+        weaknesses: ["可能需要更多練習"],
+        advice: "持續覺察自己的情緒狀態，保持平衡。",
+      };
+    }
+  },
+};
+
+// 親密與獨立傾向測驗
+const intimacyQuiz: Quiz = {
+  slug: "intimacy",
+  title: "親密與獨立傾向",
+  description: "了解你在關係中對親密連結與個人空間的需求平衡。",
+  series: "emotional-journey",
+  order: 3,
+  themeColor: "#5CB85C",
+  icon: "🌿",
+  estTimeMins: 4,
+  questions: [
+    {
+      id: "q1",
+      text: "我喜歡與伴侶分享生活中的大小事",
+      type: "scale5",
+      dimension: "intimacy",
+    },
+    {
+      id: "q2",
+      text: "我需要有自己的私人時間和空間",
+      type: "scale5",
+      dimension: "independence",
+    },
+    {
+      id: "q3",
+      text: "長時間獨處會讓我感到寂寞",
+      type: "scale5",
+      dimension: "intimacy",
+    },
+    {
+      id: "q4",
+      text: "我重視保有自己的興趣和社交圈",
+      type: "scale5",
+      dimension: "independence",
+    },
+    {
+      id: "q5",
+      text: "我希望與伴侶有深度的情感連結",
+      type: "scale5",
+      dimension: "intimacy",
+    },
+  ],
+  scoreToResult: (scores) => {
+    const intimacy = scores.intimacy || 0;
+    const independence = scores.independence || 0;
+
+    if (intimacy >= 4 && independence <= 2) {
+      return {
+        type: "intimacy-focused",
+        label: "親密優先型 💕",
+        summary: "你重視深度連結，渴望與伴侶緊密相依。",
+        strengths: ["情感投入", "忠誠專一", "營造親密感"],
+        weaknesses: ["可能過度依賴", "需要保留個人空間"],
+        advice: "在親密中保持自我成長，避免失去個人特質。",
+      };
+    } else if (independence >= 4 && intimacy <= 2) {
+      return {
+        type: "independence-focused",
+        label: "獨立優先型 🦅",
+        summary: "你重視個人空間，需要自由與獨立。",
+        strengths: ["自主獨立", "尊重界線", "自我完整"],
+        weaknesses: ["可能疏離感", "需要練習親密"],
+        advice: "在獨立中學習開放，親密不等於失去自我。",
+      };
+    } else {
+      return {
+        type: "balanced",
+        label: "平衡型 ⚖️",
+        summary: "你在親密與獨立間找到良好平衡。",
+        strengths: ["彈性調整", "關係健康", "互相尊重"],
+        weaknesses: ["需要溝通需求"],
+        advice: "持續與伴侶溝通彼此的需求，保持平衡。",
+      };
+    }
+  },
+};
+
+// 人際邊界傾向測驗
+const boundaryQuiz: Quiz = {
+  slug: "boundary",
+  title: "人際邊界傾向",
+  description: "探索你在人際關係中設立與維護界線的方式。",
+  series: "emotional-journey",
+  order: 4,
+  themeColor: "#888888",
+  icon: "🪨",
+  estTimeMins: 4,
+  questions: [
+    {
+      id: "q1",
+      text: "我能清楚地向他人說「不」",
+      type: "scale5",
+      dimension: "clarity",
+    },
+    {
+      id: "q2",
+      text: "我常常為了維持關係而犧牲自己的需求",
+      type: "scale5",
+      dimension: "flexibility",
+      reverse: true,
+    },
+    {
+      id: "q3",
+      text: "當他人越界時，我會直接表達不舒服",
+      type: "scale5",
+      dimension: "assertion",
+    },
+    {
+      id: "q4",
+      text: "我擔心設立界線會傷害他人的感受",
+      type: "scale5",
+      dimension: "guilt",
+    },
+    {
+      id: "q5",
+      text: "我清楚知道自己的底線在哪裡",
+      type: "scale5",
+      dimension: "awareness",
+    },
+  ],
+  scoreToResult: (scores) => {
+    const clarity = scores.clarity || 0;
+    const assertion = scores.assertion || 0;
+
+    if (clarity >= 4 && assertion >= 4) {
+      return {
+        type: "clear",
+        label: "清晰型 🗿",
+        summary: "你有清楚的界線，能堅定維護自己的需求。",
+        strengths: ["自我保護", "溝通直接", "尊重自己"],
+        weaknesses: ["可能顯得嚴格", "需要彈性"],
+        advice: "在堅定中保持溫柔，界線可以有彈性。",
+      };
+    } else if (clarity <= 2 || assertion <= 2) {
+      return {
+        type: "fuzzy",
+        label: "模糊型 🌫️",
+        summary: "你的界線較為模糊，容易被他人影響。",
+        strengths: ["善解人意", "關係和諧"],
+        weaknesses: ["容易被侵犯", "累積壓力"],
+        advice: "練習覺察自己的感受，學習溫柔而堅定地說不。",
+      };
+    } else {
+      return {
+        type: "developing",
+        label: "成長型 🌱",
+        summary: "你正在學習建立健康的人際界線。",
+        strengths: ["自我覺察", "願意成長"],
+        weaknesses: ["仍在練習中"],
+        advice: "持續練習設立界線，每次小小的堅持都是進步。",
+      };
+    }
+  },
+};
+
+// 核心信念探索測驗
+const coreBeliefQuiz: Quiz = {
+  slug: "core-belief",
+  title: "核心信念探索",
+  description: "深入了解影響你人際關係的核心信念與價值觀。",
+  series: "emotional-journey",
+  order: 5,
+  themeColor: "#9B59B6",
+  icon: "🌙",
+  estTimeMins: 5,
+  questions: [
+    {
+      id: "q1",
+      text: "我相信自己值得被愛",
+      type: "scale5",
+      dimension: "self-worth",
+    },
+    {
+      id: "q2",
+      text: "我認為他人基本上是值得信任的",
+      type: "scale5",
+      dimension: "trust",
+    },
+    {
+      id: "q3",
+      text: "我覺得自己需要很努力才能被接納",
+      type: "scale5",
+      dimension: "conditional-worth",
+      reverse: true,
+    },
+    {
+      id: "q4",
+      text: "我相信真誠表達自己不會被拒絕",
+      type: "scale5",
+      dimension: "authenticity",
+    },
+    {
+      id: "q5",
+      text: "我擔心一旦他人了解真實的我，就會離開",
+      type: "scale5",
+      dimension: "fear-of-rejection",
+      reverse: true,
+    },
+  ],
+  scoreToResult: (scores) => {
+    const selfWorth = scores["self-worth"] || 0;
+    const trust = scores.trust || 0;
+
+    if (selfWorth >= 4 && trust >= 4) {
+      return {
+        type: "secure-belief",
+        label: "安全核心 ✨",
+        summary: "你擁有健康的核心信念，相信自己值得愛與信任。",
+        strengths: ["自我價值穩定", "對他人開放", "關係健康"],
+        weaknesses: ["可能低估他人的不安全感"],
+        advice: "保持這份內在安全感，同時理解他人可能有不同的核心信念。",
+      };
+    } else if (selfWorth <= 2 || trust <= 2) {
+      return {
+        type: "insecure-belief",
+        label: "不安核心 🌑",
+        summary: "你的核心信念中存在不安全感，可能影響關係品質。",
+        strengths: ["自我覺察", "謹慎保護自己"],
+        weaknesses: ["自我懷疑", "難以信任"],
+        advice: "核心信念可以改變，考慮尋求專業協助，重建內在安全感。",
+      };
+    } else {
+      return {
+        type: "growing-belief",
+        label: "成長核心 🌓",
+        summary: "你正在重建更健康的核心信念。",
+        strengths: ["願意改變", "自我覺察"],
+        weaknesses: ["仍有波動"],
+        advice: "持續練習自我肯定，每個正向經驗都在重塑信念。",
+      };
+    }
+  },
+};
+
 // 所有測驗的集合
-export const quizzes: Quiz[] = [attachmentQuiz];
+export const quizzes: Quiz[] = [
+  attachmentQuiz,
+  emotionStyleQuiz,
+  intimacyQuiz,
+  boundaryQuiz,
+  coreBeliefQuiz,
+];
 
 // 根據 slug 取得測驗
 export function getQuizBySlug(slug: string): Quiz | undefined {
@@ -270,6 +595,10 @@ export function getAllQuizzes() {
     slug: q.slug,
     title: q.title,
     description: q.description,
+    series: q.series,
+    order: q.order,
+    themeColor: q.themeColor,
+    icon: q.icon,
     estTimeMins: q.estTimeMins,
   }));
 }
